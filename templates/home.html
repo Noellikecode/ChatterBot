@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<head>
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-black flex border-2 p-5 text-center">
+        <h1 class="font-bold text-3xl ml-3">ChatterBot </h1>
+        <img class="h-10 ml-3" class = "bg-gray-500" src="https://media1.tenor.com/images/3834f505939123a74057dd264d1505bf/tenor.gif?itemid=27515716" alt="Header Image">
+        <button class="bg-black hover:bg-gray-700 ml-auto text-white font-bold px-4 xl:px-6 py-2 xl:py-3 rounded mr-5" onclick="copyToClipboard('noelsimonthomas31@gmail.com')">Contact Me</button>
+    </header>
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                alert("Copied to clipboard: " + text);
+            }, function(err) {
+                console.error("Could not copy text: ", err);
+            });
+            }
+    </script>
+    <div class="text-center">
+    <h1 class="text-6xl text-blue-800 font-extrabold">The future of chatting</h1>
+    <h2 class="text-6xl text-blue-800 font-extrabold">starts here.</h2>
+    <p class="text-center text-xl text-gray-500">Chatting with a bot has never been more immersive, convenient, or easy.</p>
+    <a href="/bot" class="mt-5 inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 text-white whitespace-no-wrap bg-blue-700 border border-blue-800 rounded-md shadow-sm hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" data-rounded="rounded-md" data-primary="blue-600" data-primary-reset="{}">
+        Chat with the Bot!
+        </a>
+    </div>
+    <div class="flex flex-row items-center justify-center">
+        <img className="object-cover"src='https://img.freepik.com/free-vector/boy-taking-selfie-with-humanoid-child-with-cyborg-kid-with-robot-flat-vector-illustration-robotics-engineering-childhood_74855-8250.jpg'></img>
+        
+    <a href="#" class="block max-w-sm p-6 bg-white border border-gray-500 rounded-lg shadow-lg">
+        <p class="font-normal text-gray-700 dark:text-gray-700">Ever wondered about a future where you talked to robots? Well that future is here, with the ChatterBot!</p>
+    </a>
+
+    </div>
+</body>
+</html>

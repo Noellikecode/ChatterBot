@@ -1,0 +1,101 @@
+<html>
+  <head>
+      <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+      <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+      <style>
+          #chat-area {
+              height: 500px;
+              width: 500px;
+              overflow-y: scroll;
+          }
+          #still-image {
+            display: block;
+          }
+
+          #animated-image {
+            display: none;
+          }
+      </style>
+  </head>
+  <body>
+    <header class="text-black flex border-2 p-5 text-center">
+      <h1 class="font-bold text-3xl ml-3">ChatterBot </h1>
+      <img class="h-10 ml-3" class = "bg-gray-500" src="https://media1.tenor.com/images/3834f505939123a74057dd264d1505bf/tenor.gif?itemid=27515716" alt="Header Image">
+      <button class="bg-black hover:bg-gray-700 ml-auto text-white font-bold px-4 xl:px-6 py-2 xl:py-3 rounded mr-5" onclick="copyToClipboard('noelsimonthomas31@gmail.com')">Contact Me</button>
+      <a href="/" class="text-black hover:text-gray-700 font-bold px-4 xl:px-6 py-2 xl:py-3 rounded mr-5">Home</a>
+
+    </header>
+  <script>
+      function copyToClipboard(text) {
+          navigator.clipboard.writeText(text).then(function() {
+              alert("Copied to clipboard: " + text);
+          }, function(err) {
+              console.error("Could not copy text: ", err);
+          });
+          }
+  </script>
+      <div class="flex flex-row">
+        <img src="https://media.tenor.com/axrso9GQCKkAAAAi/robot-talk.gif" id="animated-image" alt="robot-talk" class="w-5/12"/>
+        <img id="still-image" class="w-5/12" src="https://media1.tenor.com/images/195cbfd16362ae9f4c19750d2b12998f/tenor.gif?itemid=27515415">
+        <div class="border-lg mt-20" id="video-container">
+          <video id="self-view" autoplay></video>
+          <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" id="start-recording-button">Start Talking</button>
+      <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" id="stop-recording-button" style="display:none">Stop Talking</button>
+        </div>
+      </div>
+      
+      <script>
+          const synth = window.speechSynthesis;
+          let recognition = new webkitSpeechRecognition();
+          recognition.interimResults = false;
+          const selfView = document.getElementById("self-view");
+          const stillImage = document.getElementById("still-image");
+          const animatedImage = document.getElementById("animated-image");
+
+          function startReading() {
+            stillImage.style.display = "none";
+            animatedImage.style.display = "block";
+          }
+
+          function endReading() {
+            animatedImage.style.display = "none";
+            stillImage.style.display = "block";
+          }
+
+          // Request access to the camera and set the self-view video source
+          navigator.mediaDevices.getUserMedia({ video: true })
+              .then(stream => {
+                  selfView.srcObject = stream;
+              });
+
+          $("#start-recording-button").click(function() {
+              recognition.start();
+              console.log("hello")
+              $("#start-recording-button").hide();
+              $("#stop-recording-button").show();
+          });
+
+          $("#stop-recording-button").click(function() {
+              recognition.stop();
+              $("#start-recording-button").show();
+              $("#stop-recording-button").hide();
+          });
+
+          recognition.onresult = function(event) {
+              let userText = event.results[0][0].transcript;
+              console.log(userText);
+              $.get("/get?msg=" + userText, function(data) {
+                  const speech = new SpeechSynthesisUtterance(data);
+                  speech.addEventListener('start', function() {
+                    startReading();
+                  });
+                  speech.addEventListener('end', function() {
+                    endReading();
+                  });
+                  synth.speak(speech);
+              });
+          };
+
+      </script>
+  </body>
+</html>
